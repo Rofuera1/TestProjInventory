@@ -4,13 +4,13 @@ using R3;
 
 namespace InventoryModule
 {
-    public class ExpandableInventoryTab : InventoryTab, IExpandableTab
+    public class InventoryExpandableTab : InventoryTab, IExpandableTab
     {
         private readonly Subject<Unit> _expanded = new();
 
         public Observable<Unit> Expanded => _expanded;
 
-        public ExpandableInventoryTab(int capacity, List<(IItem, int)> startItems) : base(capacity, startItems) { }
+        public InventoryExpandableTab(int capacity, List<(IItem, int)> startItems) : base(capacity, startItems) { }
         
         public void Expand(int amount = 1)
         {

@@ -15,7 +15,7 @@ namespace InventoryModule
         
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<ExpandableInventoryTab>().AsSingle().WithArguments(_capacity, StartItems());
+            Container.BindInterfacesAndSelfTo<InventoryExpandableTab>().AsSingle().WithArguments(_capacity, StartItems());
             Container.Bind<ExpandableTabViewModel>().AsSingle();
         }
 

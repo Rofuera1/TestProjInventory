@@ -50,9 +50,9 @@ namespace InventoryModule
 
         public bool TryRemove(IItem item)
         {
-            if (!_items.Contains(item)) return false;
-            
             var position = _items.FindIndex(t => t == item);
+            if (position == -1) return false;
+            
             _items[position] = null;
             
             _itemRemoved.OnNext((item, position));
