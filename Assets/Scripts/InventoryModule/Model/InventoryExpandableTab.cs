@@ -10,7 +10,8 @@ namespace InventoryModule
 
         public Observable<Unit> Expanded => _expanded;
 
-        public InventoryExpandableTab(int capacity, List<(IItem, int)> startItems) : base(capacity, startItems) { }
+
+        public InventoryExpandableTab(TabConfiguration configuration, List<(IItem, int)> startItems) : base(configuration, startItems) { }
         
         public void Expand(int amount = 1)
         {

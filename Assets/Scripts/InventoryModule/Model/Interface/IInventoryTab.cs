@@ -6,7 +6,10 @@ namespace InventoryModule
     public interface IInventoryTab
     {
         public int Capacity { get; }
-
+        
+        public IAcceptanceRule AcceptanceRule { get; }
+        public IExtractionRule ExtractionRule { get; }
+        
         public bool TryAdd(IItem item);
         public bool TryRemove(IItem item);
         
