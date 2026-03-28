@@ -4,13 +4,8 @@ using UnityEngine.UI;
 
 namespace FieldModule
 {
-    public class BasicCellView : MonoBehaviour, IBeginDragHandler
+    public class BasicCellView : MonoBehaviour
     {
-        [SerializeField] private Image _itemSprite;
         
-        public void OnBeginDrag(PointerEventData eventData)
-        {
-            
-        }
     }
 }
