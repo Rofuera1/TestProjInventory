@@ -9,8 +9,7 @@ namespace InventoryModule
         private readonly Subject<Unit> _expanded = new();
 
         public Observable<Unit> Expanded => _expanded;
-
-
+        
         public InventoryExpandableTab(TabConfiguration configuration, List<(IItem, int)> startItems) : base(configuration, startItems) { }
         
         public void Expand(int amount = 1)

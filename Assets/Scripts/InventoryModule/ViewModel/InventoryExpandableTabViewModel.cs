@@ -1,9 +1,10 @@
 using System;
+using ItemLibraryModule;
 using R3;
 
 namespace InventoryModule
 {
-    public class ExpandableTabViewModel : IDisposable
+    public class InventoryExpandableTabViewModel : InventoryTabViewModel, IDisposable
     {
         private DisposableBag _disposableBag;
         private Subject<Unit> _expanded = new();
@@ -12,7 +13,7 @@ namespace InventoryModule
         
         public Observable<Unit> Expanded => _expanded; 
         
-        public ExpandableTabViewModel(IExpandableTab expandableTab)
+        public InventoryExpandableTabViewModel(IExpandableTab expandableTab, IInventoryTab inventoryTab, IItemLibrarySystem library) :  base(inventoryTab, library)
         {
             _expandable = expandableTab;
             
@@ -29,6 +30,8 @@ namespace InventoryModule
         public void Dispose()
         {
             _disposableBag.Dispose();
+            
+            base.Dispose();
         }
     }
 }

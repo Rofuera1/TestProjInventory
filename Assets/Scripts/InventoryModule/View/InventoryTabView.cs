@@ -4,25 +4,44 @@ using UnityEngine;
 
 namespace InventoryModule
 {
-    public class InventorySlotCollectionView : MonoBehaviour
+    public class InventoryTabView : MonoBehaviour
     {
-        protected InventorySlotViewFactory _factory;
-        protected List<InventorySlotView> _slots;
+        private InventorySlotViewFactory _factory;
+        private List<InventorySlotView> _slots;
 
         protected DisposableBag _disposableBag;
+        
+        private InventoryTabViewModel _viewModel;
 
         [Zenject.Inject]
         private void Construct(InventoryTabViewModel viewModel, InventorySlotViewFactory factory)
         {
+            _viewModel = viewModel;
             _factory = factory;
             _slots = new();
-            
+
             for (var i = 0; i < viewModel.StartCapacity; i++)
-                _slots.Add(_factory.Create());
+            {
+                var slot = CreateSlot(i);
+                slot.SetStartItem(viewModel.StartSlotStates[i].Sprite);
+            }
             
             viewModel.ItemAdded.Subscribe(ItemAdded).AddTo(ref _disposableBag);
             viewModel.ItemRemoved.Subscribe(ItemRemoved).AddTo(ref _disposableBag);
         }
+
+        protected void CreateNewSlot() => CreateSlot(_slots.Count);
+
+        private InventorySlotView CreateSlot(int slotId)
+        {
+            var slot = _factory.Create();
+            _slots.Add(slot);
+                
+            slot.OnPressed.Subscribe((Unit _) => PresedOnSlot(slotId)).AddTo(ref _disposableBag);
+            return slot;
+        }
+
+        private void PresedOnSlot(int position) => _viewModel.PressedOnItem(position);
 
         private void ItemAdded((Sprite, int) value) => _slots[value.Item2].SetItem(value.Item1);
 

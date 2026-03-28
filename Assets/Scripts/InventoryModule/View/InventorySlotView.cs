@@ -19,6 +19,12 @@ namespace InventoryModule
             _button.onClick.AddListener(PressedOnButton);
         }
 
+        public void SetStartItem(Sprite sprite)
+        {
+            if(sprite) SetItem(sprite);
+            else RemoveItem();
+        }
+
         public void SetItem(Sprite sprite)
         {
             _image.enabled = true;
