@@ -9,11 +9,11 @@ namespace InventoryModule
         public void TryExtractItem(int itemPosition, IInventoryTab tab)
         {
             if (!tab.TryGetItem(itemPosition, out var item)) return;
-            if (!_fieldSystem.CanPlaceObject()) return;
+            if (!_fieldSystem.CanPlaceItem()) return;
 
             if (!tab.TryRemove(item)) return;
             
-            _fieldSystem.PlaceObject(item);
+            _fieldSystem.PlaceItem(item);
         }
     }
 }

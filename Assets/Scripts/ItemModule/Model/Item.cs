@@ -3,16 +3,18 @@ using Zenject;
 
 namespace ItemModule
 {
-    public class Item : IItem, IVisible
+    public class Item : IItem
     {
         private ItemType _type;
         private IProperty[] _properties;
-        private bool _isVisible;
         
         public ItemType Type => _type;
         public IProperty[] Properties => _properties;
-        
-        public event Action<bool> SetVisible;
-        public bool IsVisible => _isVisible;
+
+        public Item(ItemType type, IProperty[] properties)
+        {
+            _type = type;
+            _properties = properties;
+        }
     }
 }
