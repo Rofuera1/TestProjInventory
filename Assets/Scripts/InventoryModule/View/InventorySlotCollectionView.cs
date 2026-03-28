@@ -24,15 +24,9 @@ namespace InventoryModule
             viewModel.ItemRemoved.Subscribe(ItemRemoved).AddTo(ref _disposableBag);
         }
 
-        private void ItemAdded((Sprite, int) value)
-        {
-            _slots[value.Item2].SetItem(value.Item1);
-        }
+        private void ItemAdded((Sprite, int) value) => _slots[value.Item2].SetItem(value.Item1);
 
-        private void ItemRemoved(int position)
-        {
-            _slots[position].RemoveItem();
-        }
+        private void ItemRemoved(int position) => _slots[position].RemoveItem();
 
         private void OnDestroy()
         {

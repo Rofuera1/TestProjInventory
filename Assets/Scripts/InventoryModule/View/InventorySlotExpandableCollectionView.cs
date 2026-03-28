@@ -11,9 +11,6 @@ namespace InventoryModule
             viewModel.Expanded.Subscribe(AddSlot).AddTo(ref _disposableBag);
         }
 
-        private void AddSlot(Unit _)
-        {
-            _slots.Add(_factory.Create());
-        }
+        private void AddSlot(Unit _) => _slots.Add(_factory.Create());
     }
 }
