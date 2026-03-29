@@ -9,7 +9,7 @@ namespace FieldModule
         public Vector2Int Position { get; }
         public IItem Item { get; }
         
-        public bool TryRemoveItem(out IItem item);
+        public void RemoveItem(out IItem item);
         public bool TryPlaceItem(IItem item);
 
         public Observable<IItem> ItemPlaced { get; }

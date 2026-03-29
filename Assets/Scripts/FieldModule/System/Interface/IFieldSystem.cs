@@ -8,9 +8,13 @@ namespace FieldModule
         public bool CanPlaceItem();
         public bool TryGetItem(Vector2Int position, out IItem item);
         
+        public ICell GetCellWithItem(IItem item);
+
+        public bool TryPlaceItem(IItem item);
         public bool TryPlaceItem(Vector2Int position, IItem item);
-        public bool TryRemoveItem(Vector2Int position, IItem item);
+        public void RemoveItem(Vector2Int position);
         
-        public bool TryGetPosition(Vector3 globalPosition, out Vector3 position);
+        public bool TryGetCellPosition(Vector3 globalPosition, out Vector2Int position);
+        public bool TryGetWorldPosition(Vector2Int position, out Vector3 worldPosition);
     }
 }

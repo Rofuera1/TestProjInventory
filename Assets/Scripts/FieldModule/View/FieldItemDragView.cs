@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using R3;
 using UnityEngine;
 using UnityEngine.EventSystems;
 

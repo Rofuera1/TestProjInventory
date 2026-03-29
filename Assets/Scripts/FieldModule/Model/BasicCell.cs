@@ -24,12 +24,12 @@ namespace FieldModule
             _item = item;
         }
         
-        public bool TryRemoveItem(out IItem item)
+        public void RemoveItem(out IItem item)
         {
             item = _item;
+            _item = null;
             
-            if(_item != null) _itemRemoved.OnNext(_item);
-            return (_item != null);
+            if(item != null) _itemRemoved.OnNext(item);
         }
 
         public bool TryPlaceItem(IItem item)

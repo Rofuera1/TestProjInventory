@@ -9,10 +9,10 @@ namespace FieldModule
         private IFieldDragSystem _fieldDragSystem;
         private IItem _item;
 
-        private Subject<Unit> _startDrag;
-        private ReactiveProperty<Vector3> _dragPosition;
-        private ReactiveProperty<Vector3> _lerpPosition;
-        private Subject<Unit> _endDrag;
+        private Subject<Unit> _startDrag = new();
+        private ReactiveProperty<Vector3> _dragPosition = new();
+        private ReactiveProperty<Vector3> _lerpPosition = new();
+        private Subject<Unit> _endDrag = new();
         
         public Observable<Unit> StartDrag => _startDrag;
         public ReadOnlyReactiveProperty<Vector3> DragPosition => _dragPosition;
@@ -37,13 +37,15 @@ namespace FieldModule
         public void OnEndDrag(Vector2 position)
         {
             _endDrag.OnNext(Unit.Default);
-            if (!_fieldDragSystem.TryEndDrag(_item, position, out var fieldPosition))
-            {
-                LerpToPosition(_startLerpPosition);
-                return;
-            }
+            var hasNewPlace = _fieldDragSystem.TryEndDrag(_item, position);
+
+            if (hasNewPlace) return;
+            LerpToPosition(_startLerpPosition);
+
+            /*var canPlaceAtNewPlace = _fieldSystem.TryPlaceItem(fieldPosition, _item);
+            _fieldSystem.TryGetWorldPosition(fieldPosition, out var worldPosition);
             
-            
+            LerpToPosition(canPlaceAtNewPlace ? worldPosition : _startLerpPosition);*/
         }
 
         public void LerpToPosition(Vector3 position)

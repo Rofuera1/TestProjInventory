@@ -13,7 +13,7 @@ namespace InventoryModule
 
             if (!tab.TryRemove(item)) return;
             
-            _fieldSystem.PlaceItem(item);
+            _fieldSystem.TryPlaceItem(item);
         }
     }
 }
