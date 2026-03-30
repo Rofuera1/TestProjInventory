@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca75c4682d9141708c47ccb34dfd32b6, type: 3}
+  m_Name: ItemAZero
+  m_EditorClassIdentifier: 
+  Sprite: {fileID: -3018319528746875777, guid: a41d76d866b0ec8418e7d5a8f8e862eb, type: 3}
+  ItemType: 0
+  Properties:
+  - {fileID: 11400000, guid: 6a059d818cedf6e4ebde08f9ce3417c9, type: 2}

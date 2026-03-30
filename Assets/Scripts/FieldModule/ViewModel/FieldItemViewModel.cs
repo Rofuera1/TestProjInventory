@@ -6,6 +6,7 @@ namespace FieldModule
 {
     public class FieldItemViewModel
     {
+        [Zenject.Inject]
         private IFieldDragSystem _fieldDragSystem;
         private IItem _item;
 
@@ -20,6 +21,11 @@ namespace FieldModule
         public Observable<Unit> EndDrag => _endDrag;
 
         private Vector3 _startLerpPosition;
+
+        public FieldItemViewModel(IItem item)
+        {
+            _item = item;
+        }
         
         public void OnStartDrag(Vector2 position)
         {

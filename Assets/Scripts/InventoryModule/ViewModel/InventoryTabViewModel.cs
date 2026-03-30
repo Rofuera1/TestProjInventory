@@ -46,7 +46,7 @@ namespace InventoryModule
             {
                 _startSlotStates.Add(!_tab.TryGetItem(i, out var item)
                     ? new InitialSlotState(null)
-                    : new InitialSlotState(_itemLibrary.GetItemSprite(item.Type)));
+                    : new InitialSlotState(_itemLibrary.GetItemSprite(item.Type, item.Properties)));
             }
         }
 
@@ -54,7 +54,7 @@ namespace InventoryModule
 
         private void AddedItem((IItem, int) value)
         {
-            var sprite = _itemLibrary.GetItemSprite(value.Item1.Type);
+            var sprite = _itemLibrary.GetItemSprite(value.Item1.Type, value.Item1.Properties);
             
             _itemAdded.OnNext((sprite, value.Item2));
         }

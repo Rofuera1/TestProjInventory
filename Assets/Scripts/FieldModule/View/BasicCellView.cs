@@ -6,6 +6,5 @@ namespace FieldModule
 {
     public class BasicCellView : MonoBehaviour
     {
-        
     }
 }
