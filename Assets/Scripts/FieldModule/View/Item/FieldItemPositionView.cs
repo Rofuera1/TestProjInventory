@@ -9,24 +9,26 @@ namespace FieldModule
 {
     public class FieldItemPositionView : MonoBehaviour
     {
+        [SerializeField] private SpriteRenderer _spriteRenderer;
+        
         private Vector3 _refPosition;
         private Vector3 _prefferablePosition;
         
         private IEnumerator _dragCoroutine;
         private DisposableBag _disposableBag;
 
-        [Zenject.Inject]
-        public void Construct(FieldItemViewModel fieldItemViewModel)
+        public void Construct(FieldItemDragViewModel fieldItemDragViewModel)
         {
-            fieldItemViewModel.StartDrag.Subscribe(StartSmoothDrag).AddTo(ref _disposableBag);
-            fieldItemViewModel.DragPosition.Subscribe(SetSmoothPosition).AddTo(ref _disposableBag);
-            fieldItemViewModel.EndDrag.Subscribe(EndSmoothDrag).AddTo(ref _disposableBag);
+            fieldItemDragViewModel.StartDrag.Subscribe(StartSmoothDrag).AddTo(ref _disposableBag);
+            fieldItemDragViewModel.DragPosition.Subscribe(SetSmoothPosition).AddTo(ref _disposableBag);
+            fieldItemDragViewModel.EndDrag.Subscribe(EndSmoothDrag).AddTo(ref _disposableBag);
             
-            fieldItemViewModel.LerpPosition.Subscribe(SetLerpPosition).AddTo(ref _disposableBag);
+            fieldItemDragViewModel.LerpPosition.Subscribe(SetLerpPosition).AddTo(ref _disposableBag);
         }
 
         private void StartSmoothDrag(Unit _)
         {
+            _spriteRenderer.sortingOrder = 2;
             _refPosition = Vector3.zero;
             _prefferablePosition = transform.position;
             
@@ -40,6 +42,8 @@ namespace FieldModule
 
         private void EndSmoothDrag(Unit _)
         {
+            _spriteRenderer.sortingOrder = 1;// magic numbers i know
+            
             if(_dragCoroutine != null)
                 StopCoroutine(_dragCoroutine);
         }

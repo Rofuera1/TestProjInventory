@@ -39,12 +39,16 @@ namespace FieldModule
             return item != null;
         }
 
-        public bool TryPlaceItem(IItem item)
+        public bool TryPlaceItem(IItem item, out Vector2Int position)
         {
-            if (!CanPlaceItem()) return false;
+            if (!CanPlaceItem())
+            {
+                position = Vector2Int.zero;
+                return false;
+            }
 
-            var freeSpace = GetFreeCell();
-            _cells[freeSpace.x, freeSpace.y].TryPlaceItem(item);
+            position = GetFreeCell();
+            _cells[position.x, position.y].TryPlaceItem(item);
 
             return true;
         }

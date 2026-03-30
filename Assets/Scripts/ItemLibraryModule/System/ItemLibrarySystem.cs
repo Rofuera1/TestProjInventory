@@ -7,21 +7,37 @@ namespace ItemLibraryModule
 {
     public class ItemLibrarySystem : IItemLibrarySystem
     {
-        private LibraryScriptable _libraryScriptable;
+        private IItemPropertiesVisualClassifier _itemPropertiesVisualClassifier;
+        private Dictionary<(ItemType, PropertyType), ItemScriptable> _items;
 
-        public ItemLibrarySystem(LibraryScriptable libraryScriptable)
+        public ItemLibrarySystem(IItemPropertiesVisualClassifier itemPropertiesVisualClassifier, LibraryScriptable libraryScriptable)
         {
-            _libraryScriptable = libraryScriptable;
+            _items = new();
+            _itemPropertiesVisualClassifier = itemPropertiesVisualClassifier;
+            
+            foreach (var itemScriptable in libraryScriptable.Items)
+            {
+                var properties = new List<IProperty>();
+                foreach (var propertyScriptable in itemScriptable.Properties)
+                    properties.Add(propertyScriptable.CreateProperty());
+                
+                var propertyType = itemPropertiesVisualClassifier.EvaluatePropertyType(properties.ToArray());
+                
+                _items.Add((itemScriptable.ItemType, propertyType), itemScriptable);
+            }
         }
         
         public Sprite GetItemSprite(ItemType itemType, IProperty[] properties)
         {
-            return _libraryScriptable.Items.FirstOrDefault(t => t.ItemType == itemType && t.Properties == properties)?.Sprite;
+            var propertyType = _itemPropertiesVisualClassifier.EvaluatePropertyType(properties);
+            return _items[(itemType, propertyType)].Sprite;
         }
 
         public (ItemType, IProperty[] properties) GetRandomProperties()
         {
-            var item = _libraryScriptable.Items[Random.Range(0, _libraryScriptable.Items.Length)];
+            var itemAmount = _items.Count;
+            var item = _items.Values.ToArray()[Random.Range(0, itemAmount)];
+            
             var properties = new List<IProperty>();
             foreach (var propertyScriptable in item.Properties)
                 properties.Add(propertyScriptable.CreateProperty());

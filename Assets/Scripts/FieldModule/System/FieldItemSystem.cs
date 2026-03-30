@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using ItemModule;
+using R3;
 using SaveLoadModule;
+using UnityEngine;
 
 namespace FieldModule
 {
@@ -12,6 +14,10 @@ namespace FieldModule
 
         public readonly List<IItem> _initialItems;
         public List<IItem> InitialItems => _initialItems;
+
+        private Subject<(IItem, Vector2Int)> _spawnedItem = new();
+
+        public Observable<(IItem, Vector2Int)> SpawnedItem => _spawnedItem;
 
         public FieldItemSystem(IFieldItemGenerator fieldItemGenerator, IFieldSystem fieldSystem,
             IFieldSaveLoader fieldSaveLoader)
@@ -29,7 +35,14 @@ namespace FieldModule
             if (!_fieldSystem.CanPlaceItem()) return;
             
             var item = _fieldItemGenerator.CreateRandomItem();
-            _fieldSystem.TryPlaceItem(item);
+
+            if (!_fieldSystem.TryPlaceItem(item, out var position))
+            {
+                Debug.LogWarning("FieldItemSystem: item was created, but could not be placed on the field.");
+                return;
+            }
+            
+            _spawnedItem.OnNext((item, position));
         }
 
         private void LoadItems()

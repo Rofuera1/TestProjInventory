@@ -9,7 +9,6 @@ namespace InventoryModule
 {
     public class InventoryTabViewModel : IDisposable
     {
-        [Zenject.Inject]
         private IExtractionSystem _extractionSystem;
         
         private IItemLibrarySystem _itemLibrary;
@@ -27,8 +26,9 @@ namespace InventoryModule
         
         public int StartCapacity { get; }
         
-        public InventoryTabViewModel(IInventoryTab inventoryTab, IItemLibrarySystem library)
+        public InventoryTabViewModel(IInventoryTab inventoryTab, IItemLibrarySystem library, IExtractionSystem extractionSystem)
         {
+            _extractionSystem = extractionSystem;
             _tab = inventoryTab;
             _itemLibrary = library;
             StartCapacity = inventoryTab.Capacity;

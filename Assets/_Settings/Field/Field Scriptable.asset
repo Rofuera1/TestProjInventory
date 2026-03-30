@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Height: 5
   Width: 7
-  StartPoint: {x: 0, y: 0}
+  StartPoint: {x: -5, y: -5}
   CellSize: {x: 1, y: 1}

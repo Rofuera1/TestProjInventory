@@ -20,7 +20,7 @@ namespace InventoryModule
             Container.BindInterfacesAndSelfTo<InventoryExpandableTab>().
                 AsSingle().
                 WithArguments(ConfigurationBuilder.Build(_settings), StartItems());
-            Container.Bind<InventoryTabViewModel>().To<InventoryExpandableTabViewModel>().AsSingle();
+            Container.Bind<InventoryExpandableTabViewModel>().AsSingle();
         }
 
         private List<(IItem, int)> StartItems()

@@ -5,6 +5,11 @@ namespace InventoryModule
     public class ExtractionSystem : IExtractionSystem
     {
         private IFieldSystem _fieldSystem;
+
+        public ExtractionSystem(IFieldSystem fieldSystem)
+        {
+            _fieldSystem = fieldSystem;
+        }
         
         public void TryExtractItem(int itemPosition, IInventoryTab tab)
         {
@@ -13,7 +18,7 @@ namespace InventoryModule
 
             if (!tab.TryRemove(item)) return;
             
-            _fieldSystem.TryPlaceItem(item);
+            _fieldSystem.TryPlaceItem(item, out _);
         }
     }
 }

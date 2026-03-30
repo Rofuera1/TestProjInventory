@@ -17,12 +17,13 @@ namespace FieldModule
         
         public bool TryStartDrag(IItem item) => true;
 
-        public bool TryEndDrag(IItem item, Vector3 globalPosition)
+        public bool TryEndDrag(IItem item, Vector3 globalPosition, out ICell cell)
         {
             var oldCell = _fieldSystem.GetCellWithItem(item);
-            var newCell = _builder.GetCell(globalPosition);
-            
-            if (!newCell.TryPlaceItem(item)) return false;
+            cell = _builder.GetCell(globalPosition);
+
+            if (cell == null) return false;
+            if (!cell.TryPlaceItem(item)) return false;
             oldCell.RemoveItem(out _);
 
             return true;

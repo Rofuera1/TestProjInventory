@@ -1,16 +1,62 @@
+using System.Collections.Generic;
 using R3;
 using UnityEngine;
 
 namespace InventoryModule
 {
-    public class InventoryTabExpandableView : InventoryTabView
+    public class InventoryTabExpandableView : MonoBehaviour
     {
+        [SerializeField] private Transform _cellContainer;
+        
+        private InventorySlotViewFactory _factory;
+        private List<InventorySlotView> _slots;
+
+        protected DisposableBag _disposableBag;
+        
+        private InventoryExpandableTabViewModel _viewModel;
+        
         [Zenject.Inject]
-        private void Construct(InventoryExpandableTabViewModel viewModel)
+        private void Construct(InventoryExpandableTabViewModel viewModel, InventorySlotViewFactory factory)
         {
+            _viewModel = viewModel;
             viewModel.Expanded.Subscribe(AddSlot).AddTo(ref _disposableBag);
+            
+            _factory = factory;
+            _slots = new();
+
+            Debug.Log($"Creating slots {viewModel.StartCapacity}");
+            for (var i = 0; i < viewModel.StartCapacity; i++)
+            {
+                var slot = CreateSlot(i);
+                slot.SetStartItem(viewModel.StartSlotStates[i].Sprite);
+                Debug.Log($"Created slot");
+            }
+            
+            viewModel.ItemAdded.Subscribe(ItemAdded).AddTo(ref _disposableBag);
+            viewModel.ItemRemoved.Subscribe(ItemRemoved).AddTo(ref _disposableBag);
         }
 
-        private void AddSlot(Unit _) => CreateNewSlot();
+        private InventorySlotView CreateSlot(int slotId)
+        {
+            var slot = _factory.Create();
+            _slots.Add(slot);
+            slot.transform.parent = _cellContainer;
+                
+            slot.OnPressed.Subscribe((Unit _) => PresedOnSlot(slotId)).AddTo(ref _disposableBag);
+            return slot;
+        }
+
+        private void PresedOnSlot(int position) => _viewModel.PressedOnItem(position);
+
+        private void ItemAdded((Sprite, int) value) => _slots[value.Item2].SetItem(value.Item1);
+
+        private void ItemRemoved(int position) => _slots[position].RemoveItem();
+
+        private void AddSlot(Unit _) => CreateSlot(_slots.Count);
+
+        private void OnDestroy()
+        {
+            _disposableBag.Dispose();
+        }
     }
 }

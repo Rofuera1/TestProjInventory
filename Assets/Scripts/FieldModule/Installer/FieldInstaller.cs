@@ -8,14 +8,20 @@ namespace FieldModule
     {
         [SerializeField] private FieldScriptable _parameters;
         [SerializeField] private BasicCellView _basicCellPrefab;
-        [SerializeField] private FieldItemPositionView _basicFieldItemPrefab;
+        [SerializeField] private FieldItemBootstrapper _basicFieldItemPrefab;
+        [SerializeField] private Camera _camera;
         
         public override void InstallBindings()
         {
+            Container.Bind<Camera>().FromInstance(_camera).AsSingle();
+            
             Container.BindFactory<BasicCellView, BasicCellViewFactory>().FromComponentInNewPrefab(_basicCellPrefab).AsSingle();
-            Container.BindFactory<FieldItemViewModel, FieldItemPositionView, BasicItemViewFactory>().FromComponentInNewPrefab(_basicFieldItemPrefab).AsSingle();
+            Container.BindFactory<FieldItemViewModel, FieldItemDragViewModel, FieldItemBootstrapper, BasicItemViewFactory>()
+                .FromComponentInNewPrefab(_basicFieldItemPrefab).AsSingle();
             Container.BindFactory<ItemType, IProperty[], Item, ItemFactory>().AsSingle();
-            Container.BindFactory<IItem, FieldItemViewModel, FieldItemViewModelFactory>().AsSingle();
+            
+            Container.BindFactory<IItem, FieldItemDragViewModel, FieldItemDragViewModelFactory>().AsTransient();
+            Container.BindFactory<IItem, FieldItemViewModel, FieldItemViewModelFactory>().AsTransient();
             
             Container.BindInterfacesAndSelfTo<FieldBuilder>().AsSingle();
             Container.BindInterfacesAndSelfTo<FieldDragSystem>().AsSingle();

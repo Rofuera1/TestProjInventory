@@ -1,62 +1,29 @@
+using System;
+using ItemLibraryModule;
 using ItemModule;
 using R3;
 using UnityEngine;
 
 namespace FieldModule
 {
-    public class FieldItemViewModel
+    public class FieldItemViewModel : IDisposable
     {
-        [Zenject.Inject]
-        private IFieldDragSystem _fieldDragSystem;
-        private IItem _item;
-
-        private Subject<Unit> _startDrag = new();
-        private ReactiveProperty<Vector3> _dragPosition = new();
-        private ReactiveProperty<Vector3> _lerpPosition = new();
-        private Subject<Unit> _endDrag = new();
+        private IItemLibrarySystem _librarySystem;
         
-        public Observable<Unit> StartDrag => _startDrag;
-        public ReadOnlyReactiveProperty<Vector3> DragPosition => _dragPosition;
-        public ReadOnlyReactiveProperty<Vector3> LerpPosition => _lerpPosition;
-        public Observable<Unit> EndDrag => _endDrag;
-
-        private Vector3 _startLerpPosition;
-
-        public FieldItemViewModel(IItem item)
-        {
-            _item = item;
-        }
+        private ReactiveProperty<Sprite> _icon = new();
         
-        public void OnStartDrag(Vector2 position)
+        public ReadOnlyReactiveProperty<Sprite> Icon => _icon;
+
+        public FieldItemViewModel(IItemLibrarySystem librarySystem, IItem item)
         {
-            if (!_fieldDragSystem.TryStartDrag(_item)) return;
-
-            _startLerpPosition = position;
-            _startDrag.OnNext(Unit.Default);
-        }
-
-        public void Drag(Vector2 position)
-        {
-            _dragPosition.Value = position;
-        }
-
-        public void OnEndDrag(Vector2 position)
-        {
-            _endDrag.OnNext(Unit.Default);
-            var hasNewPlace = _fieldDragSystem.TryEndDrag(_item, position);
-
-            if (hasNewPlace) return;
-            LerpToPosition(_startLerpPosition);
-
-            /*var canPlaceAtNewPlace = _fieldSystem.TryPlaceItem(fieldPosition, _item);
-            _fieldSystem.TryGetWorldPosition(fieldPosition, out var worldPosition);
+            _librarySystem = librarySystem;
             
-            LerpToPosition(canPlaceAtNewPlace ? worldPosition : _startLerpPosition);*/
+            _icon.Value = _librarySystem.GetItemSprite(item.Type, item.Properties);
         }
 
-        public void LerpToPosition(Vector3 position)
+        public void Dispose()
         {
-            _lerpPosition.Value = position;
+            _icon?.Dispose();
         }
     }
 }

@@ -10,6 +10,7 @@ namespace ItemLibraryModule
         public override void InstallBindings()
         {
             Container.BindInterfacesAndSelfTo<ItemLibrarySystem>().AsSingle().WithArguments(_libraryScriptable);
+            Container.BindInterfacesAndSelfTo<ItemPropertiesVissualClassifier>().AsSingle();
         }
     }
 }

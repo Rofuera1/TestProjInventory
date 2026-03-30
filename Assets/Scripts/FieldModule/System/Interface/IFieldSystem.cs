@@ -10,7 +10,7 @@ namespace FieldModule
         
         public ICell GetCellWithItem(IItem item);
 
-        public bool TryPlaceItem(IItem item);
+        public bool TryPlaceItem(IItem item, out Vector2Int position);
         public bool TryPlaceItem(Vector2Int position, IItem item);
         public void RemoveItem(Vector2Int position);
         

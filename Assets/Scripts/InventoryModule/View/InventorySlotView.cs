@@ -7,7 +7,7 @@ namespace InventoryModule
 {
     public class InventorySlotView : MonoBehaviour
     {
-        [SerializeField] private Image _image;
+        [SerializeField] private Image _itemInsideImage;
         [SerializeField] private Button _button;
 
         private Subject<Unit> _onPressed = new();
@@ -27,14 +27,14 @@ namespace InventoryModule
 
         public void SetItem(Sprite sprite)
         {
-            _image.enabled = true;
-            _image.sprite = sprite;
+            _itemInsideImage.enabled = true;
+            _itemInsideImage.sprite = sprite;
         }
         
-        public void RemoveItem() => _image.enabled = false;
+        public void RemoveItem() => _itemInsideImage.enabled = false;
 
         private void PressedOnButton() => _onPressed.OnNext(Unit.Default);
 
-        private void OnValidate() => _image = _image ?? GetComponent<Image>();
+        private void OnValidate() => _button = _button ?? GetComponent<Button>();
     }
 }

@@ -13,7 +13,8 @@ namespace InventoryModule
         
         public Observable<Unit> Expanded => _expanded; 
         
-        public InventoryExpandableTabViewModel(IExpandableTab expandableTab, IInventoryTab inventoryTab, IItemLibrarySystem library) :  base(inventoryTab, library)
+        public InventoryExpandableTabViewModel(IExpandableTab expandableTab, IInventoryTab inventoryTab, IItemLibrarySystem library, IExtractionSystem extractionSystem) 
+            :  base(inventoryTab, library, extractionSystem)
         {
             _expandable = expandableTab;
             

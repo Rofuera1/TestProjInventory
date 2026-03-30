@@ -6,6 +6,8 @@ namespace InventoryModule
 {
     public class InventoryTabView : MonoBehaviour
     {
+        [SerializeField] private Transform _cellContainer;
+        
         private InventorySlotViewFactory _factory;
         private List<InventorySlotView> _slots;
 
@@ -30,12 +32,11 @@ namespace InventoryModule
             viewModel.ItemRemoved.Subscribe(ItemRemoved).AddTo(ref _disposableBag);
         }
 
-        protected void CreateNewSlot() => CreateSlot(_slots.Count);
-
         private InventorySlotView CreateSlot(int slotId)
         {
             var slot = _factory.Create();
             _slots.Add(slot);
+            slot.transform.parent = _cellContainer;
                 
             slot.OnPressed.Subscribe((Unit _) => PresedOnSlot(slotId)).AddTo(ref _disposableBag);
             return slot;
