@@ -100,6 +100,10 @@ PrefabInstance:
       propertyPath: '_monoInstallers.Array.data[0]'
       value: 
       objectReference: {fileID: 1946164978886207889}
+    - target: {fileID: 8634808704740540776, guid: 3a4aab92b209cfc4dbad6653326a9401, type: 3}
+      propertyPath: _tabToOpen
+      value: 
+      objectReference: {fileID: 9015432504355886275}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -128,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f118b06844b4940bcd22891aa971bda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cellParent: {fileID: 0}
   _cellContainer: {fileID: 9192349284181654591}
 --- !u!114 &1946164978886207889
 MonoBehaviour:

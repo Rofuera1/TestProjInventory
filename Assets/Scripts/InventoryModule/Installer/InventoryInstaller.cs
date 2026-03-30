@@ -9,7 +9,8 @@ namespace InventoryModule
         
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<ExtractionSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<InventorySystem>().AsSingle();
+            Container.Bind<InventoryViewModel>().AsSingle();
 
             Container.BindFactory<InventorySlotView, InventorySlotViewFactory>().FromComponentInNewPrefab(_slotPrefab);
         }

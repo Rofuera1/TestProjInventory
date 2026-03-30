@@ -4,10 +4,11 @@ namespace InventoryModule
 {
     public static class ConfigurationBuilder
     {
-        public static TabConfiguration Build(TabScriptable scriptable)
+        public static TabConfiguration Build(TabScriptable scriptable, string id)
         {
             return new TabConfiguration(
                 scriptable.Capacity, 
+                id,
                 MapAcceptanceRule(scriptable.AcceptanceType), 
                 MapExtractionRule(scriptable.ExtractionType)
                 );

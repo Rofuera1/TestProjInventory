@@ -9,6 +9,7 @@ namespace InventoryModule
     public class InventoryTab : IInventoryTab
     {
         protected int _capacity;
+        private string _id;
         
         private IAcceptanceRule _acceptanceRule;
         private IExtractionRule _extractionRule;
@@ -16,6 +17,7 @@ namespace InventoryModule
         protected List<IItem> _items;
 
         public int Capacity => _capacity;
+        public string Id => _id;
 
         private readonly Subject<(IItem, int)> _itemAdded = new();
         private readonly Subject<(IItem, int)> _itemRemoved = new();
@@ -53,6 +55,14 @@ namespace InventoryModule
             
             item = _items[position];
             return item != null;
+        }
+
+        public bool CanAdd(IItem item)
+        {
+            if(!_acceptanceRule.CanAccept(item)) return false;
+            
+            var position = _items.FindIndex(t => t == null);
+            return position != -1;
         }
 
         public bool TryAdd(IItem item)

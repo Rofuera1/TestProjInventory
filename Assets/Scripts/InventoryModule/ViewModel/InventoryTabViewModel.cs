@@ -25,13 +25,16 @@ namespace InventoryModule
         public IReadOnlyList<InitialSlotState> StartSlotStates => _startSlotStates;
         
         public int StartCapacity { get; }
+        public string Id { get; }
         
         public InventoryTabViewModel(IInventoryTab inventoryTab, IItemLibrarySystem library, IExtractionSystem extractionSystem)
         {
             _extractionSystem = extractionSystem;
             _tab = inventoryTab;
             _itemLibrary = library;
+            
             StartCapacity = inventoryTab.Capacity;
+            Id = inventoryTab.Id;
             
             inventoryTab.ItemAdded.Subscribe(AddedItem).AddTo(ref _disposableBag);
             inventoryTab.ItemRemoved.Subscribe(RemovedItem).AddTo(ref _disposableBag);

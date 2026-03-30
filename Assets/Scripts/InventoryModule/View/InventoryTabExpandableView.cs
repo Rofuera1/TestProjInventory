@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace InventoryModule
 {
-    public class InventoryTabExpandableView : MonoBehaviour
+    public class InventoryTabExpandableView : BasicInventoryTabView
     {
         [SerializeField] private Transform _cellContainer;
         
@@ -20,16 +20,16 @@ namespace InventoryModule
         {
             _viewModel = viewModel;
             viewModel.Expanded.Subscribe(AddSlot).AddTo(ref _disposableBag);
+
+            Id = viewModel.Id;
             
             _factory = factory;
             _slots = new();
 
-            Debug.Log($"Creating slots {viewModel.StartCapacity}");
             for (var i = 0; i < viewModel.StartCapacity; i++)
             {
                 var slot = CreateSlot(i);
                 slot.SetStartItem(viewModel.StartSlotStates[i].Sprite);
-                Debug.Log($"Created slot");
             }
             
             viewModel.ItemAdded.Subscribe(ItemAdded).AddTo(ref _disposableBag);

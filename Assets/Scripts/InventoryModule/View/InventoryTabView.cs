@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace InventoryModule
 {
-    public class InventoryTabView : MonoBehaviour
+    public class InventoryTabView : BasicInventoryTabView
     {
         [SerializeField] private Transform _cellContainer;
         
@@ -22,6 +22,8 @@ namespace InventoryModule
             _factory = factory;
             _slots = new();
 
+            Id = viewModel.Id;
+            
             for (var i = 0; i < viewModel.StartCapacity; i++)
             {
                 var slot = CreateSlot(i);
