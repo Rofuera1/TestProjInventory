@@ -10,6 +10,7 @@ namespace InventoryModule
     public class InventoryExpandableTabMonoInstaller : MonoInstaller
     {
         [SerializeField] private string _tabId;
+        [SerializeField] private InventoryTabExpandableView _expandableView;
         [Space] 
         [SerializeField] private TabScriptable _settings;
         
@@ -17,10 +18,21 @@ namespace InventoryModule
         
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<InventoryExpandableTab>().
-                AsSingle().
-                WithArguments(ConfigurationBuilder.Build(_settings, _tabId), StartItems());
-            Container.Bind<InventoryExpandableTabViewModel>().AsSingle();
+            var tab = new InventoryExpandableTab(ConfigurationBuilder.Build(_settings, _tabId), StartItems());
+
+            Container.Bind<IInventoryTab>()
+                .FromInstance(tab)
+                .AsCached();
+
+            Container.Bind<IExpandableTab>()
+                .FromInstance(tab)
+                .AsCached();
+
+            var tabViewModel = Container.Instantiate<InventoryExpandableTabViewModel>(
+                new object[] { tab, tab });
+
+            var slotFactory = Container.Resolve<InventorySlotViewFactory>();
+            _expandableView.Construct(tabViewModel, slotFactory);
         }
 
         private List<(IItem, int)> StartItems()

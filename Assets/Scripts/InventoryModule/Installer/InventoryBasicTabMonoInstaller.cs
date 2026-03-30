@@ -10,6 +10,7 @@ namespace InventoryModule
     public class InventoryBasicTabMonoInstaller : MonoInstaller
     {
         [SerializeField] private string _tabId;
+        [SerializeField] private InventoryTabView _view;
         [Space] 
         [SerializeField] private TabScriptable _settings;
         
@@ -17,10 +18,17 @@ namespace InventoryModule
         
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<InventoryTab>().
-                AsSingle().
-                WithArguments(ConfigurationBuilder.Build(_settings, _tabId), StartItems());
-            Container.Bind<InventoryTabViewModel>().AsSingle();
+            var tab = new InventoryTab(ConfigurationBuilder.Build(_settings, _tabId), StartItems());
+
+            Container.Bind<IInventoryTab>()
+                .FromInstance(tab)
+                .AsCached();
+
+            var tabViewModel = Container.Instantiate<InventoryTabViewModel>(
+                new object[] { tab });
+
+            var slotFactory = Container.Resolve<InventorySlotViewFactory>();
+            _view.Construct(tabViewModel, slotFactory);
         }
 
         private List<(IItem, int)> StartItems()

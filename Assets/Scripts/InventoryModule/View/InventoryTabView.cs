@@ -15,8 +15,7 @@ namespace InventoryModule
         
         private InventoryTabViewModel _viewModel;
 
-        [Zenject.Inject]
-        private void Construct(InventoryTabViewModel viewModel, InventorySlotViewFactory factory)
+        public void Construct(InventoryTabViewModel viewModel, InventorySlotViewFactory factory)
         {
             _viewModel = viewModel;
             _factory = factory;

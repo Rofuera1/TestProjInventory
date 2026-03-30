@@ -15,8 +15,7 @@ namespace InventoryModule
         
         private InventoryExpandableTabViewModel _viewModel;
         
-        [Zenject.Inject]
-        private void Construct(InventoryExpandableTabViewModel viewModel, InventorySlotViewFactory factory)
+        public void Construct(InventoryExpandableTabViewModel viewModel, InventorySlotViewFactory factory)
         {
             _viewModel = viewModel;
             viewModel.Expanded.Subscribe(AddSlot).AddTo(ref _disposableBag);

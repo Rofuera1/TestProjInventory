@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f118b06844b4940bcd22891aa971bda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cellParent: {fileID: 0}
+  _cellParent: {fileID: 5110434406825601141}
   _cellContainer: {fileID: 9192349284181654591}
 --- !u!114 &1946164978886207889
 MonoBehaviour:
@@ -147,7 +147,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tabId: 
+  _view: {fileID: 9015432504355886275}
   _settings: {fileID: 0}
+--- !u!1 &5110434406825601141 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6221161229046290839, guid: 3a4aab92b209cfc4dbad6653326a9401, type: 3}
+  m_PrefabInstance: {fileID: 1206375539900330466}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &9192349284181654591 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8010813923358674397, guid: 3a4aab92b209cfc4dbad6653326a9401, type: 3}

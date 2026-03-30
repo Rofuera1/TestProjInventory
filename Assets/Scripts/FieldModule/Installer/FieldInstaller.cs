@@ -13,7 +13,7 @@ namespace FieldModule
         
         public override void InstallBindings()
         {
-            Container.Bind<Camera>().FromInstance(_camera).AsSingle();
+            Container.Bind<Camera>().FromInstance(_camera).AsSingle();//ikr
             
             Container.BindFactory<BasicCellView, BasicCellViewFactory>().FromComponentInNewPrefab(_basicCellPrefab).AsSingle();
             Container.BindFactory<FieldItemViewModel, FieldItemDragViewModel, FieldItemBootstrapper, BasicItemViewFactory>()
