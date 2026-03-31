@@ -982,14 +982,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1494602539}
     m_Modifications:
-    - target: {fileID: 1307293340077978389, guid: 6372864786918a4408a8f9eec4877b72, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -20.32434
-      objectReference: {fileID: 0}
-    - target: {fileID: 1307293340077978389, guid: 6372864786918a4408a8f9eec4877b72, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -17.692505
-      objectReference: {fileID: 0}
     - target: {fileID: 6064237979113838389, guid: 6372864786918a4408a8f9eec4877b72, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1070,17 +1062,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7605998872030033750, guid: 6372864786918a4408a8f9eec4877b72, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8820486797495261110, guid: 6372864786918a4408a8f9eec4877b72, type: 3}
       propertyPath: m_Name
       value: Inventory
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 3785012162198355852, guid: 6372864786918a4408a8f9eec4877b72, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6372864786918a4408a8f9eec4877b72, type: 3}
