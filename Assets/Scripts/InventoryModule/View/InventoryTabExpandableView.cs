@@ -19,8 +19,6 @@ namespace InventoryModule
         {
             _viewModel = viewModel;
             viewModel.Expanded.Subscribe(AddSlot).AddTo(ref _disposableBag);
-
-            Id = viewModel.Id;
             
             _factory = factory;
             _slots = new();

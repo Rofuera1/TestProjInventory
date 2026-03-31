@@ -20,8 +20,6 @@ namespace InventoryModule
             _viewModel = viewModel;
             _factory = factory;
             _slots = new();
-
-            Id = viewModel.Id;
             
             for (var i = 0; i < viewModel.StartCapacity; i++)
             {

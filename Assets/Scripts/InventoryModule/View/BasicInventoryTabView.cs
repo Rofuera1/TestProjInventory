@@ -5,7 +5,9 @@ namespace InventoryModule
     public abstract class BasicInventoryTabView : MonoBehaviour
     {
         [SerializeField] private GameObject _cellParent;
-        public string Id { get; protected set; }
+        [SerializeField] private string _id;
+
+        public string Id => _id;
 
         public void SetActive(bool active)
         {
