@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ItemModule;
 using R3;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace FieldModule
         private IFieldBuilder _builder;
         private IFieldSystem _fieldSystem;
         private IFieldItemSystem _itemSystem;
+
+        private Dictionary<IItem, FieldItemBootstrapper> _fieldItems;
         
         private DisposableBag _disposableBag;
         
@@ -31,11 +34,14 @@ namespace FieldModule
             _builder = builder;
             _fieldSystem = fieldSystem;
             _itemSystem = itemSystem;
+
+            _fieldItems = new();
             
             _itemSystem.SpawnedItem.Subscribe(OnCreatedNewItem).AddTo(ref _disposableBag);
+            _itemSystem.DestroyedItem.Subscribe(DestroyItem).AddTo(ref _disposableBag);
 
             CreateCells();
-            CreateItems();
+            CreateInitialItems();
         }
 
         private void CreateCells()
@@ -47,25 +53,35 @@ namespace FieldModule
             } 
         }
 
-        private void CreateItems()
+        private void DestroyItem(IItem item)
+        {
+            var view = _fieldItems[item];
+            _fieldItems.Remove(item);
+            Destroy(view.gameObject);
+        }
+
+        private void CreateInitialItems()
         {
             foreach (var item in _itemSystem.InitialItems)
             {
-                var itemView = _itemViewFactory.Create(_fieldItemViewModelFactory.Create(item), _fieldItemDragViewModelFactory.Create(item));
-                var cell = _fieldSystem.GetCellWithItem(item);
-
-                _fieldSystem.TryGetWorldPosition(cell.Position, out var worldPosition);
-                itemView.transform.position = worldPosition;
+                CreateItem(item);
             }
         }
 
         private void OnCreatedNewItem((IItem item, Vector2Int position) value)
         {
-            var itemView = _itemViewFactory.Create(_fieldItemViewModelFactory.Create(value.item), _fieldItemDragViewModelFactory.Create(value.item));
-            var cell = _fieldSystem.GetCellWithItem(value.item);
+            CreateItem(value.item);
+        }
+
+        private void CreateItem(IItem item)
+        {
+            var itemView = _itemViewFactory.Create(_fieldItemViewModelFactory.Create(item), _fieldItemDragViewModelFactory.Create(item));
+            var cell = _fieldSystem.GetCellWithItem(item);
 
             _fieldSystem.TryGetWorldPosition(cell.Position, out var worldPosition);
             itemView.transform.position = worldPosition;
+            
+            _fieldItems.Add(item, itemView);
         }
 
         private void OnDestroy()

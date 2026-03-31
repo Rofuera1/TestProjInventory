@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ItemModule;
 using R3;
+using UnityEngine;
 
 namespace InventoryModule
 {
@@ -31,6 +32,8 @@ namespace InventoryModule
             
             _acceptanceRule = configuration.AcceptanceRule;
             _extractionRule = configuration.ExtractionRule;
+
+            _id = configuration.Id;
             
             _items = new(_capacity);
             

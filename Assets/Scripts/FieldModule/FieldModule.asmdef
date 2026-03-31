@@ -1,4 +1,19 @@
 {
-	"name": "FieldModule",
-	"references":[ "GUID:3f80b2736a1798d4a877a18cf0c6e18f", "GUID:0d8beb7f090555447a6cf5ce9e54dbb4", "GUID:aa72e521396d13a4d8813ce8787b0eb2", "GUID:7075f227162998149b12cd25397f653e" ]
+    "name": "FieldModule",
+    "rootNamespace": "",
+    "references": [
+        "GUID:3f80b2736a1798d4a877a18cf0c6e18f",
+        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
+        "GUID:aa72e521396d13a4d8813ce8787b0eb2",
+        "GUID:7075f227162998149b12cd25397f653e"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

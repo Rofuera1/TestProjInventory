@@ -33,6 +33,8 @@ namespace InventoryModule
             viewModel.ItemRemoved.Subscribe(ItemRemoved).AddTo(ref _disposableBag);
         }
 
+        public void AddSlot() => _viewModel.ExpandTab();
+
         private InventorySlotView CreateSlot(int slotId)
         {
             var slot = _factory.Create();

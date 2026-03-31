@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Third
   m_EditorClassIdentifier: 
   Capacity: 6
+  Id: B
   AcceptanceType: 2
   ExtractionType: 1

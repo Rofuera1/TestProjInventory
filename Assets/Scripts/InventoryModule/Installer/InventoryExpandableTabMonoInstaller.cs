@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using ItemModule;
 using SaveLoadModule;
@@ -9,27 +10,30 @@ namespace InventoryModule
 {
     public class InventoryExpandableTabMonoInstaller : MonoInstaller
     {
-        [SerializeField] private string _tabId;
         [SerializeField] private InventoryTabExpandableView _expandableView;
         [Space] 
         [SerializeField] private TabScriptable _settings;
         
         [Inject] private IInventoryTabSaveLoader _tabSaveLoader;
+        private InventoryExpandableTab _tab;
         
         public override void InstallBindings()
         {
-            var tab = new InventoryExpandableTab(ConfigurationBuilder.Build(_settings, _tabId), StartItems());
+            _tab = new InventoryExpandableTab(ConfigurationBuilder.Build(_settings), StartItems());
 
             Container.Bind<IInventoryTab>()
-                .FromInstance(tab)
+                .FromInstance(_tab)
                 .AsCached();
 
             Container.Bind<IExpandableTab>()
-                .FromInstance(tab)
+                .FromInstance(_tab)
                 .AsCached();
+        }
 
+        private void Awake()
+        {
             var tabViewModel = Container.Instantiate<InventoryExpandableTabViewModel>(
-                new object[] { tab, tab });
+                new object[] { _tab, _tab });
 
             var slotFactory = Container.Resolve<InventorySlotViewFactory>();
             _expandableView.Construct(tabViewModel, slotFactory);
@@ -37,7 +41,7 @@ namespace InventoryModule
 
         private List<(IItem, int)> StartItems()
         {
-            return _tabSaveLoader.LoadInventory(_tabId);
+            return _tabSaveLoader.LoadInventory(_settings.Id);
         }
     }
 }

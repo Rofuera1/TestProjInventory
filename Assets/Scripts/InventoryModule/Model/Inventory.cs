@@ -1,6 +1,7 @@
 using System.Linq;
 using ItemModule;
 using R3;
+using UnityEngine;
 
 namespace InventoryModule
 {
@@ -25,6 +26,7 @@ namespace InventoryModule
         public bool TryAdd(IItem item)
         {
             var tab = _tabs.FirstOrDefault(t => t.CanAdd(item));
+            
             if(tab != null) _itemAdded.OnNext(tab.Id);
             
             return tab != null && tab.TryAdd(item);

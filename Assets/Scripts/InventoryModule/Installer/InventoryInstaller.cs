@@ -13,6 +13,8 @@ namespace InventoryModule
             Container.Bind<InventoryViewModel>().AsSingle();
             Container.BindInterfacesAndSelfTo<Inventory>().AsSingle();
 
+            Container.Bind<InventoryIconViewModel>().AsSingle();
+
             Container.BindFactory<InventorySlotView, InventorySlotViewFactory>().FromComponentInNewPrefab(_slotPrefab);
         }
     }

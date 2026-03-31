@@ -1,10 +1,11 @@
+using System;
 using ItemModule;
 using R3;
 using UnityEngine;
 
 namespace FieldModule
 {
-    public class FieldItemDragViewModel
+    public class FieldItemDragViewModel : IDisposable
     {
         private IFieldDragSystem _fieldDragSystem;
         private IFieldSystem _fieldSystem;
@@ -71,6 +72,14 @@ namespace FieldModule
         private void LerpToPosition(Vector3 position)
         {
             _lerpPosition.OnNext(position);
+        }
+
+        public void Dispose()
+        {
+            _startDrag?.Dispose();
+            _dragPosition?.Dispose();
+            _lerpPosition?.Dispose();
+            _endDrag?.Dispose();
         }
     }
 }

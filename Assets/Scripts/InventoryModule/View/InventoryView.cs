@@ -9,6 +9,7 @@ namespace InventoryModule
     public class InventoryView : MonoBehaviour
     {
         [SerializeField] private BasicInventoryTabView[] _tabViews;
+        [SerializeField] private GameObject _window; // couldve been canvas group, but i have no time left!!!
 
         private Dictionary<string, BasicInventoryTabView> _tabs;
         private BasicInventoryTabView _activeTab;
@@ -26,7 +27,10 @@ namespace InventoryModule
             
             inventoryViewModel.SetActive.Subscribe(SetActive).AddTo(ref _disposableBag);
             inventoryViewModel.SetInactive.Subscribe(SetInactive).AddTo(ref _disposableBag);
+            inventoryViewModel.WindowActive.Subscribe(SetWindowActive).AddTo(ref _disposableBag);
         }
+        
+        private void SetWindowActive(bool active) => _window.SetActive(active);
 
         private void SetActive(string id)
         {

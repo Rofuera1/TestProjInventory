@@ -16,8 +16,10 @@ namespace FieldModule
         public List<IItem> InitialItems => _initialItems;
 
         private Subject<(IItem, Vector2Int)> _spawnedItem = new();
+        private Subject<IItem> _destroyedItem = new();
 
         public Observable<(IItem, Vector2Int)> SpawnedItem => _spawnedItem;
+        public Observable<IItem> DestroyedItem => _destroyedItem;
 
         public FieldItemSystem(IFieldItemGenerator fieldItemGenerator, IFieldSystem fieldSystem,
             IFieldSaveLoader fieldSaveLoader)
@@ -29,7 +31,17 @@ namespace FieldModule
             _initialItems = new List<IItem>();
             LoadItems();
         }
-        
+
+        public void CreateItemFromInventory(IItem item, Vector2Int position)
+        {
+            _spawnedItem.OnNext((item, position));
+        }
+
+        public void DestroyItem(IItem item)
+        {
+            _destroyedItem.OnNext(item);
+        }
+
         public void CreateRandomItem()
         {
             if (!_fieldSystem.CanPlaceItem()) return;
