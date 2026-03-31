@@ -1,9 +1,13 @@
+using UnityEngine;
+
 namespace SaveLoadModule
 {
     [System.Serializable]
     public class SaveData
     {
-        public InventoryData[] InventoryData;
-        public WorldData[] WorldData;
+        [SerializeField]
+        public InventorySlotSave[] InventoryData;
+        [SerializeField]
+        public WorldSave[] WorldData;
     }
 }

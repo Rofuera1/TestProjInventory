@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using ItemModule;
 using R3;
+using SaveLoadModule;
 using UnityEngine;
 
 namespace InventoryModule
 {
-    public class InventoryTab : IInventoryTab
+    public class InventoryTab : IInventoryTab, IInventoryTabSaveSnapshot
     {
         protected int _capacity;
         private string _id;
@@ -26,9 +27,9 @@ namespace InventoryModule
         public Observable<(IItem, int)> ItemAdded => _itemAdded;
         public Observable<(IItem, int)> ItemRemoved => _itemRemoved;
 
-        public InventoryTab(TabConfiguration configuration, List<(IItem, int)> startItems)
+        public InventoryTab(TabConfiguration configuration, List<InventoryData> startItems, int capacity)
         {
-            _capacity = configuration.Capacity;
+            _capacity = capacity == 0 ? configuration.Capacity : capacity;
             
             _acceptanceRule = configuration.AcceptanceRule;
             _extractionRule = configuration.ExtractionRule;
@@ -39,7 +40,7 @@ namespace InventoryModule
             
             while(_items.Count < _capacity)
                 _items.Add(null);
-            startItems.ForEach(t => AddInitialItem(t.Item1, t.Item2));
+            startItems.ForEach(t => AddInitialItem(t.Item, t.Slot));
         }
 
         private void AddInitialItem(IItem item, int position)
@@ -94,6 +95,27 @@ namespace InventoryModule
             _itemRemoved.OnNext((item, position));
 
             return true;
+        }
+
+        public InventoryParams GetSnapshot()
+        {
+            var result = new List<InventoryData>();
+            for (int i = 0; i < _items.Count; i++)
+            {
+                if(_items[i] == null) continue;
+                result.Add(new()
+                {
+                    Item = _items[i],
+                    Slot = i,
+                });
+            }
+
+            return new()
+            {
+                Capacity = _capacity,
+                Id = _id,
+                Items = result,
+            };
         }
     }
 }

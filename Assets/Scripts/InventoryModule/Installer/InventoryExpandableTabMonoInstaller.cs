@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ItemModule;
 using SaveLoadModule;
 using UnityEngine;
@@ -14,18 +15,22 @@ namespace InventoryModule
         [Space] 
         [SerializeField] private TabScriptable _settings;
         
-        [Inject] private IInventoryTabSaveLoader _tabSaveLoader;
+        [Inject] private IInventoryTabLoader _tabLoader;
         private InventoryExpandableTab _tab;
         
         public override void InstallBindings()
         {
-            _tab = new InventoryExpandableTab(ConfigurationBuilder.Build(_settings), StartItems());
+            LoadStartItems();
 
             Container.Bind<IInventoryTab>()
                 .FromInstance(_tab)
                 .AsCached();
 
             Container.Bind<IExpandableTab>()
+                .FromInstance(_tab)
+                .AsCached();
+            
+            Container.Bind<IInventoryTabSaveSnapshot>()
                 .FromInstance(_tab)
                 .AsCached();
         }
@@ -39,9 +44,10 @@ namespace InventoryModule
             _expandableView.Construct(tabViewModel, slotFactory);
         }
 
-        private List<(IItem, int)> StartItems()
+        private async Task LoadStartItems()
         {
-            return _tabSaveLoader.LoadInventory(_settings.Id);
+            var inventory = await _tabLoader.LoadInventory(_settings.Id);
+            _tab = new InventoryExpandableTab(ConfigurationBuilder.Build(_settings), inventory.Items, inventory.Capacity);
         }
     }
 }

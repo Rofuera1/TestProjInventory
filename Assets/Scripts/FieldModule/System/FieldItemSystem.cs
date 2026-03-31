@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ItemModule;
 using R3;
 using SaveLoadModule;
@@ -10,7 +11,7 @@ namespace FieldModule
     {
         private IFieldItemGenerator _fieldItemGenerator;
         private IFieldSystem _fieldSystem;
-        private IFieldSaveLoader _fieldSaveLoader;
+        private IFieldLoader _fieldLoader;
 
         public readonly List<IItem> _initialItems;
         public List<IItem> InitialItems => _initialItems;
@@ -22,11 +23,11 @@ namespace FieldModule
         public Observable<IItem> DestroyedItem => _destroyedItem;
 
         public FieldItemSystem(IFieldItemGenerator fieldItemGenerator, IFieldSystem fieldSystem,
-            IFieldSaveLoader fieldSaveLoader)
+            IFieldLoader fieldLoader)
         {
             _fieldItemGenerator = fieldItemGenerator;
             _fieldSystem = fieldSystem;
-            _fieldSaveLoader = fieldSaveLoader;
+            _fieldLoader = fieldLoader;
             
             _initialItems = new List<IItem>();
             LoadItems();
@@ -57,13 +58,13 @@ namespace FieldModule
             _spawnedItem.OnNext((item, position));
         }
 
-        private void LoadItems()
+        private async Task LoadItems()
         {
-            var items = _fieldSaveLoader.LoadField();
+            var items = await _fieldLoader.LoadField();
             foreach (var item in items)
             {
-                var createdItem = _fieldItemGenerator.CreateItem(item.Item1, item.Item2);
-                _fieldSystem.TryPlaceItem(item.Item3, createdItem);
+                var createdItem = _fieldItemGenerator.CreateItem(item.Item1.Type, item.Item1.Properties);
+                _fieldSystem.TryPlaceItem(item.Item2, createdItem);
                 _initialItems.Add(createdItem);
             }
         }

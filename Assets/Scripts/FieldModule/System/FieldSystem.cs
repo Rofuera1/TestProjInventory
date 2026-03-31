@@ -1,10 +1,12 @@
+using System.Collections.Generic;
 using System.Linq;
 using ItemModule;
+using SaveLoadModule;
 using UnityEngine;
 
 namespace FieldModule
 {
-    public class FieldSystem : IFieldSystem
+    public class FieldSystem : IFieldSystem, IFieldSaveSnapshot
     {
         private IFieldBuilder _builder;
         private ICell[,] _cells;
@@ -95,6 +97,22 @@ namespace FieldModule
             worldPosition = _builder.GetGlobalPosition(cell);
 
             return true;
+        }
+
+        public List<WorldData> GetSnapshot()
+        {
+            var result = new List<WorldData>();
+            for(var x = 0; x < _width; x++)
+                for(var y = 0; y < _height; y++)
+                    if(_cells[x, y].Item != null)
+                        result.Add(new()
+                        {
+                            Item = _cells[x, y].Item,
+                            Position = new Vector2Int(x, y)
+                        });
+
+            Debug.Log($"Created snapshot with {result.Count} items");
+            return result;
         }
     }
 }

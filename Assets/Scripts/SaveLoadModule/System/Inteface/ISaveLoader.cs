@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace SaveLoadModule
 {
-    public interface ISaveLoader
+    public interface ISaveSystem
     {
-        public void Save();
+        public Task Save();
     }
 }

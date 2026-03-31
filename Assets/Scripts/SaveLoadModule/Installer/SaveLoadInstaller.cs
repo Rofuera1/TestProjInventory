@@ -6,7 +6,9 @@ namespace SaveLoadModule
     {
         public override void InstallBindings()
         {
-            Container.BindInterfacesAndSelfTo<SaveLoaderSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<LoadSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<SaveSystem>().AsSingle();
+            Container.BindInterfacesAndSelfTo<ItemSaveMapper>().AsSingle();
         }
     }
 }

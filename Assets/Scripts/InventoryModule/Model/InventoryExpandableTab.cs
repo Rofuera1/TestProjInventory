@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using ItemModule;
 using R3;
+using SaveLoadModule;
 
 namespace InventoryModule
 {
@@ -10,7 +11,7 @@ namespace InventoryModule
 
         public Observable<Unit> Expanded => _expanded;
         
-        public InventoryExpandableTab(TabConfiguration configuration, List<(IItem, int)> startItems) : base(configuration, startItems) { }
+        public InventoryExpandableTab(TabConfiguration configuration, List<InventoryData> startItems, int capacity) : base(configuration, startItems, capacity) { }
         
         public void Expand(int amount = 1)
         {

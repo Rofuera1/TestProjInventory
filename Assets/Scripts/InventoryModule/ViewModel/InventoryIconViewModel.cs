@@ -10,7 +10,7 @@ namespace InventoryModule
     {
         private IInventorySystem _inventorySystem;
 
-        private ReactiveProperty<Color> _iconColor = new();
+        private ReactiveProperty<Color> _iconColor;
         
         public ReadOnlyReactiveProperty<Color> IconColor => _iconColor;
 
@@ -19,11 +19,12 @@ namespace InventoryModule
         public InventoryIconViewModel(IInventorySystem inventorySystem)
         {
             _inventorySystem = inventorySystem;
+            _iconColor = new ReactiveProperty<Color>(Color.white);
 
             _inventorySystem.FailingToAcceptItem.Subscribe(ColorIconOnFailingToAcceptItem).AddTo(ref _disposableBag);
         }
 
-        private void ColorIconOnFailingToAcceptItem(bool failingToAcceptItem) => _iconColor.Value = failingToAcceptItem ? Color.red : Color.white;
+        private void ColorIconOnFailingToAcceptItem(bool failingToAcceptItem) => _iconColor.Value = failingToAcceptItem ? Color.red : Color.white; // magic colors
 
         public void OnPointerEnter()
         {
